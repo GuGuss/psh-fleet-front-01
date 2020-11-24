@@ -34,3 +34,10 @@ web:
             index: ['index.html']
             scripts: false
             allow: true
+source:
+    operations:
+        update:
+            command: |
+              curl $BACKEND_URL -o content/My-JSON-Content.json
+              echo Fetching JSON data from $BACKEND_URL
+              git commit -am "Source Operation: Updated content from backend."

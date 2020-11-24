@@ -4,6 +4,7 @@ import { Link, graphql } from "gatsby"
 import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import JSONData from "../../content/My-JSON-Content.json"
 
 const BlogIndex = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
@@ -28,11 +29,9 @@ const BlogIndex = ({ data, location }) => {
       <SEO title="All posts" />
       <Bio />
       <ol style={{ listStyle: `none` }}>
-        {posts.map(post => {
-          const title = post.frontmatter.title || post.fields.slug
-
+        {JSONData.data.map((data, index) => {
           return (
-            <li key={post.fields.slug}>
+            <li key={`content_item_${index}`}>
               <article
                 className="post-list-item"
                 itemScope
@@ -40,20 +39,11 @@ const BlogIndex = ({ data, location }) => {
               >
                 <header>
                   <h2>
-                    <Link to={post.fields.slug} itemProp="url">
-                      <span itemProp="headline">{title}</span>
-                    </Link>
+                    <span itemProp="headline">{data.attributes.title}</span>
                   </h2>
-                  <small>{post.frontmatter.date}</small>
+                  <small>{data.attributes.created}</small>
                 </header>
-                <section>
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: post.frontmatter.description || post.excerpt,
-                    }}
-                    itemProp="description"
-                  />
-                </section>
+                <section>{data.attributes.body.processed}</section>
               </article>
             </li>
           )
